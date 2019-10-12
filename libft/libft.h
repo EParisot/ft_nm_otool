@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/29 15:01:25 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 17:55:19 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/12 18:30:39 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char				*ft_strtrim(const char *s);
 char				**ft_strsplit(const char *s, char c);
 char				*ft_strrev(char *s);
 char				*ft_itoa(int n);
+char				*ft_itoa_base(int n, int base);
 void				ft_foreach(int *tab, int len, void(*f)(int));
 void				ft_putchar(const char c);
 void				ft_putstr(const char *s);
