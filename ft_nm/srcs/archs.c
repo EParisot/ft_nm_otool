@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/13 12:59:32 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 13:03:15 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,18 @@ int							build_sym_list(struct nlist_64 *symtab, \
 	if (*sym_list == NULL)
 	{
 		if ((*sym_list = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
+		{
+			free(sym);
 			return (-1);
+		}
 	}
 	else
 	{
 		if ((cur_sym = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
+		{
+			free(sym);
 			return (-1);
+		}
 		ft_lstaddend(sym_list, cur_sym);
 	}
 	//TODO sort list by names
