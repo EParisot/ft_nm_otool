@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/13 12:47:04 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 12:59:32 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,37 +31,32 @@ void						print_sym(t_symbol *sym)
 	ft_putchar('\n');
 }
 
-void						build_sym_list(struct nlist_64 *symtab, \
+int							build_sym_list(struct nlist_64 *symtab, \
 							char *str_table, int i, t_list **sym_list)
 {
 	t_symbol				*sym;
 	t_list					*cur_sym;
 
 	if ((sym = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
-	{
-		print_err("Error malloc", "");
-		return ;
-	}
+		return (-1);
 	sym->name = (char *)str_table + symtab[i].n_un.n_strx;
 	sym->type = symtab[i].n_type > N_EXT;
 	sym->value = symtab[i].n_value;
 	if (*sym_list == NULL)
 	{
 		if ((*sym_list = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
-			print_err("Error malloc", "");
+			return (-1);
 	}
 	else
 	{
 		if ((cur_sym = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
-		{
-			print_err("Error malloc", "");
-			return ;
-		}
+			return (-1);
 		ft_lstaddend(sym_list, cur_sym);
 	}
 	//TODO sort list by names
 	print_sym(sym);
 	free(sym);
+	return (0);
 }
 
 void						read_sym_table(char *obj, struct load_command *lc, \
@@ -80,7 +75,11 @@ void						read_sym_table(char *obj, struct load_command *lc, \
 	i = 0;
 	while (i < nb_sym)
 	{
-		build_sym_list(symtab, str_tab, i, sym_list);
+		if (build_sym_list(symtab, str_tab, i, sym_list) < 0)
+		{
+			print_err("Error malloc", "");
+			return ;
+		}
 		++i;
 	}
 }
