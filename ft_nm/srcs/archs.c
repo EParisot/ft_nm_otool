@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/13 18:51:26 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 18:53:36 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int							build_sym_list(struct nlist_64 *symtab, \
 	{
 		if ((cur_sym = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
 			ret = -1;
-		ft_lstaddend(sym_list, cur_sym);
+		else
+			ft_lstaddend(sym_list, cur_sym);
 	}
 	free(sym);
 	return (ret);
