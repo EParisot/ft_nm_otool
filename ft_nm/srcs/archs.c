@@ -6,29 +6,36 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/13 13:03:15 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 18:51:26 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-void						print_sym(t_symbol *sym)
+void						print_sym(t_list *sym_list)
 {
 	int						len;
+	t_list					*first;
 
-	len = 8;
-	if (sym->value)
+	first = sym_list;
+	while (sym_list)
 	{
-		while (--len)
-			ft_putchar('0');
-		ft_putnbr_hex_p(sym->value);
+		len = 8;
+		if (((t_symbol *)(sym_list->content))->value)
+		{
+			while (--len)
+				ft_putchar('0');
+			ft_putnbr_hex_p(((t_symbol *)(sym_list->content))->value);
+		}
+		else
+			ft_putstr("                ");
+		ft_putchar(' ');
+		ft_putstr((((t_symbol *)(sym_list->content))->type) ? "T ": "U ");
+		ft_putstr(((t_symbol *)(sym_list->content))->name);
+		ft_putchar('\n');
+		sym_list = sym_list->next;
 	}
-	else
-		ft_putstr("                ");
-	ft_putchar(' ');
-	ft_putstr((sym->type) ? "T ": "U ");
-	ft_putstr(sym->name);
-	ft_putchar('\n');
+	sym_list = first;
 }
 
 int							build_sym_list(struct nlist_64 *symtab, \
@@ -36,7 +43,9 @@ int							build_sym_list(struct nlist_64 *symtab, \
 {
 	t_symbol				*sym;
 	t_list					*cur_sym;
+	int						ret;
 
+	ret = 0;
 	if ((sym = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
 		return (-1);
 	sym->name = (char *)str_table + symtab[i].n_un.n_strx;
@@ -45,24 +54,16 @@ int							build_sym_list(struct nlist_64 *symtab, \
 	if (*sym_list == NULL)
 	{
 		if ((*sym_list = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
-		{
-			free(sym);
-			return (-1);
-		}
+			ret = -1;
 	}
 	else
 	{
 		if ((cur_sym = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
-		{
-			free(sym);
-			return (-1);
-		}
+			ret = -1;
 		ft_lstaddend(sym_list, cur_sym);
 	}
-	//TODO sort list by names
-	print_sym(sym);
 	free(sym);
-	return (0);
+	return (ret);
 }
 
 void						read_sym_table(char *obj, struct load_command *lc, \
@@ -88,6 +89,8 @@ void						read_sym_table(char *obj, struct load_command *lc, \
 		}
 		++i;
 	}
+	//ft_lstsort_str(*sym_list);
+	print_sym(*sym_list);
 }
 
 void						del(void *addr, size_t size)
