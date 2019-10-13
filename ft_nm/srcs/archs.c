@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/13 18:53:36 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 20:53:57 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void						print_sym(t_list *sym_list)
 		else
 			ft_putstr("                ");
 		ft_putchar(' ');
-		ft_putstr((((t_symbol *)(sym_list->content))->type) ? "T ": "U ");
+		ft_putchar(((t_symbol *)(sym_list->content))->type);
+		ft_putchar(' ');
 		ft_putstr(((t_symbol *)(sym_list->content))->name);
 		ft_putchar('\n');
 		sym_list = sym_list->next;
@@ -49,7 +50,7 @@ int							build_sym_list(struct nlist_64 *symtab, \
 	if ((sym = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
 		return (-1);
 	sym->name = (char *)str_table + symtab[i].n_un.n_strx;
-	sym->type = symtab[i].n_type > N_EXT;
+	sym->type = get_type(symtab[i].n_type);
 	sym->value = symtab[i].n_value;
 	if (*sym_list == NULL)
 	{
@@ -90,7 +91,7 @@ void						read_sym_table(char *obj, struct load_command *lc, \
 		}
 		++i;
 	}
-	//ft_lstsort_str(*sym_list);
+	sym_lst_sort(*sym_list);
 	print_sym(*sym_list);
 }
 

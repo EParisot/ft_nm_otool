@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/13 12:24:38 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 20:56:19 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ typedef struct	s_symbol
 
 void			print_err(char *err, char *arg);
 void			handle_64(char *obj);
+void			sym_lst_sort(t_list *sym_list);
+char			get_type(uint32_t num_type);
 
 #endif
