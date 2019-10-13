@@ -6,33 +6,66 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/12 18:57:03 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 12:47:04 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-void						print_sym(struct nlist_64 *symtab, \
-										char *str_table, int i)
+void						print_sym(t_symbol *sym)
 {
 	int						len;
 
-	len = 16 - 8;//TODO find a better way
-	if (symtab[i].n_value)
+	len = 8;
+	if (sym->value)
 	{
 		while (--len)
 			ft_putchar('0');
-		ft_putnbr_hex_p(symtab[i].n_value);
+		ft_putnbr_hex_p(sym->value);
 	}
 	else
 		ft_putstr("                ");
 	ft_putchar(' ');
-	ft_putstr((symtab[i].n_type > N_EXT) ? "T ": "U ");
-	ft_putstr((void*)(str_table + symtab[i].n_un.n_strx));
+	ft_putstr((sym->type) ? "T ": "U ");
+	ft_putstr(sym->name);
 	ft_putchar('\n');
 }
 
-void						read_sym_table(char *obj, struct load_command *lc)
+void						build_sym_list(struct nlist_64 *symtab, \
+							char *str_table, int i, t_list **sym_list)
+{
+	t_symbol				*sym;
+	t_list					*cur_sym;
+
+	if ((sym = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
+	{
+		print_err("Error malloc", "");
+		return ;
+	}
+	sym->name = (char *)str_table + symtab[i].n_un.n_strx;
+	sym->type = symtab[i].n_type > N_EXT;
+	sym->value = symtab[i].n_value;
+	if (*sym_list == NULL)
+	{
+		if ((*sym_list = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
+			print_err("Error malloc", "");
+	}
+	else
+	{
+		if ((cur_sym = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
+		{
+			print_err("Error malloc", "");
+			return ;
+		}
+		ft_lstaddend(sym_list, cur_sym);
+	}
+	//TODO sort list by names
+	print_sym(sym);
+	free(sym);
+}
+
+void						read_sym_table(char *obj, struct load_command *lc, \
+											t_list **sym_list)
 {
 	struct symtab_command	*symtab_cmd;
 	struct nlist_64			*symtab;
@@ -47,9 +80,15 @@ void						read_sym_table(char *obj, struct load_command *lc)
 	i = 0;
 	while (i < nb_sym)
 	{
-		print_sym(symtab, str_tab, i);
+		build_sym_list(symtab, str_tab, i, sym_list);
 		++i;
 	}
+}
+
+void						del(void *addr, size_t size)
+{
+	size = 0;
+	free(addr);
 }
 
 void						handle_64(char *obj)
@@ -58,7 +97,9 @@ void						handle_64(char *obj)
 	struct load_command		*lc;
 	int						nb_ld;
 	int						i;
+	t_list					*sym_list;
 
+	sym_list = NULL;
 	header = (struct mach_header_64*)obj;
 	nb_ld = header->ncmds;
 	i = 0;
@@ -67,7 +108,8 @@ void						handle_64(char *obj)
 	{
 		if (lc->cmd == LC_SYMTAB)
 		{
-			read_sym_table(obj, lc);
+			read_sym_table(obj, lc, &sym_list);
+			ft_lstdel(&sym_list, del);
 			break;
 		}
 		lc = (void *)lc + lc->cmdsize;

@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/12 17:36:32 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 12:25:53 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int					main(int argc, char *argv[])
 			read_obj(argv[i]);
 	else
 		read_obj("a.out\0");
+	while(1);
 	return 0;
 }

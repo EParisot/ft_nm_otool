@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/12 16:01:14 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/13 12:24:38 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
 
-void				handle_64(char *obj);
+typedef struct	s_symbol
+{
+	char		*name;
+	int			type;
+	size_t		value;
+}				t_symbol;
+
+void			print_err(char *err, char *arg);
+void			handle_64(char *obj);
 
 #endif
