@@ -6,23 +6,11 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/13 12:25:53 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/14 17:16:43 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
-
-void				print_err(char *err, char *arg)
-{
-	ft_putstr(err);
-	if (ft_strlen(arg))
-	{
-		ft_putstr(" '");
-		ft_putstr(arg);
-		ft_putstr("'");
-	}
-	ft_putchar('\n');
-}
 
 void				ft_nm(char *obj)
 {
@@ -61,6 +49,5 @@ int					main(int argc, char *argv[])
 			read_obj(argv[i]);
 	else
 		read_obj("a.out\0");
-	while(1);
 	return 0;
 }

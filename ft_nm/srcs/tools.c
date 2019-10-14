@@ -6,11 +6,29 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 20:25:27 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/13 21:17:04 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/14 17:13:47 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
+
+void						del(void *addr, size_t size)
+{
+	size = 0;
+	free(addr);
+}
+
+void			print_err(char *err, char *arg)
+{
+	ft_putstr(err);
+	if (ft_strlen(arg))
+	{
+		ft_putstr(" '");
+		ft_putstr(arg);
+		ft_putstr("'");
+	}
+	ft_putchar('\n');
+}
 
 static void		ft_lstswap(t_list *lst, t_list *next)
 {
@@ -47,20 +65,27 @@ void			sym_lst_sort(t_list *sym_list)
 	}
 }
 
-char			get_type(uint32_t num_type)
+char			get_type(uint32_t num_type, uint8_t sect, t_sections *sects)
 {
-	char res;
-	char ext;
-	char type;
+	char		res;
 
-	res = 0;
-	ext = num_type & N_EXT;
-	type = num_type & N_TYPE;
-	if (type == N_UNDF)
-		res = 'U';
-	else if (ext == 0)
-		res = 't';
-	else
-		res = 'T';
+	res = 'U';
+	if ((num_type & N_TYPE) == N_ABS)
+		res = 'A';
+	else if ((num_type & N_TYPE) == N_INDR)
+		res = 'I';
+	else if ((num_type & N_TYPE) == N_SECT)
+	{
+		if (sect == sects->bss)
+			res = 'B';
+		else if (sect == sects->data)
+			res = 'D';
+		else if (sect == sects->text)
+			res = 'T';
+		else
+			res = 'S';
+	}
+	if ((num_type & N_EXT) == 0)
+		res = ft_tolower(res);
 	return (res);
 }
