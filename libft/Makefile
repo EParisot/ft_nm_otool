@@ -6,13 +6,14 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2019/10/12 18:18:36 by eparisot         ###   ########.fr        #
+#    Updated: 2019/10/14 19:36:00 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	libft.a
 
 SRCS	=	ft_atoi.c \
+			ft_countdigits_hex.c \
 			ft_is_int.c \
 			ft_bzero.c \
 			ft_foreach.c \

@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/29 15:01:25 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/14 14:46:20 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/14 19:35:38 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(const char *s, int fd);
 void				ft_putendl_fd(const char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
+int					ft_countdigits_hex(uintmax_t n);
 
 t_list				*ft_lstnew(const void *content, size_t content_size);
 void				ft_lstdelone(t_list **als, void (*del)(void *, size_t));
