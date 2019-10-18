@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 20:25:27 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/14 17:13:47 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/18 18:11:37 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-void						del(void *addr, size_t size)
+void			del(void *addr, size_t size)
 {
 	size = 0;
 	free(addr);

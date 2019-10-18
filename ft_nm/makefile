@@ -6,7 +6,7 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2019/10/14 10:57:27 by eparisot         ###   ########.fr        #
+#    Updated: 2019/10/18 18:03:43 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME	=	ft_nm
 
 SRCS	=	srcs/ft_nm.c \
 			srcs/arch_64.c \
-			srcs/tools.c
+			srcs/tools.c \
+			srcs/tools2.c
 
 INC		=	includes/ft_nm.h
 
