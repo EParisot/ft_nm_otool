@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/14 19:39:58 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/18 17:03:03 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-void							print_sym(t_list *sym_list)
+void						print_sym(t_list *sym_list)
 {
 	int							len;
 	t_list						*first;
@@ -39,8 +39,8 @@ void							print_sym(t_list *sym_list)
 	sym_list = first;
 }
 
-int								build_sym_list(struct nlist_64 symtab, \
-						char *str_table, t_list **sym_list, t_sections *sects)
+int							build_sym_list(struct nlist_64 symtab, \
+		char *str_table, t_list **sym_list, t_sections *sects)
 {
 	t_symbol					*sym;
 	t_list						*cur_sym;
@@ -68,8 +68,8 @@ int								build_sym_list(struct nlist_64 symtab, \
 	return (ret);
 }
 
-void							read_sym_table(char *obj, \
-				struct load_command *lc, t_list **sym_list, t_sections *sects)
+void						read_sym_table(char *obj, struct load_command *lc, \
+		t_list **sym_list, t_sections *sects, void *end)
 {
 	struct symtab_command		*symtab_cmd;
 	struct nlist_64				*symtab;
@@ -82,7 +82,7 @@ void							read_sym_table(char *obj, \
 	symtab = (void *)obj + symtab_cmd->symoff;
 	nb_sym = symtab_cmd->nsyms;
 	i = 0;
-	while (i < nb_sym)
+	while (i < nb_sym && (void *)symtab + i * sizeof(symtab) < end)
 	{
 		if (build_sym_list(symtab[i], str_tab, sym_list, sects) < 0)
 		{
@@ -95,8 +95,8 @@ void							read_sym_table(char *obj, \
 	print_sym(*sym_list);
 }
 
-t_sections						*parse_sects(struct load_command *lc, \
-													t_sections *sects)
+t_sections					*parse_sects(struct load_command *lc, \
+		t_sections *sects)
 {
 	struct segment_command_64	*segment_cmd;
 	struct section_64			*sections;
@@ -104,7 +104,7 @@ t_sections						*parse_sects(struct load_command *lc, \
 	int							i;
 
 	if (sects == NULL && \
-				(sects = (t_sections *)malloc(sizeof(t_sections))) == NULL)
+			(sects = (t_sections *)malloc(sizeof(t_sections))) == NULL)
 		return (NULL);
 	segment_cmd = (struct segment_command_64 *)lc;
 	sections = (struct section_64*)((void *)segment_cmd + sizeof(*segment_cmd));
@@ -113,19 +113,19 @@ t_sections						*parse_sects(struct load_command *lc, \
 	while (++i < nb_sects)
 	{
 		if (!ft_strcmp((sections + i)->sectname, SECT_TEXT) \
-			&& !ft_strcmp((sections + i)->segname, SEG_TEXT))
+				&& !ft_strcmp((sections + i)->segname, SEG_TEXT))
 			sects->text = i + 1;
 		if (!ft_strcmp((sections + i)->sectname, SECT_DATA) \
-			&& !ft_strcmp((sections + i)->segname, SEG_DATA))
+				&& !ft_strcmp((sections + i)->segname, SEG_DATA))
 			sects->data = i + 1;
 		if (!ft_strcmp((sections + i)->sectname, SECT_BSS) \
-			&& !ft_strcmp((sections + i)->segname, SEG_DATA))
+				&& !ft_strcmp((sections + i)->segname, SEG_DATA))
 			sects->bss = i + 1;
 	}
 	return (sects);
 }
 
-void							handle_64(char *obj)
+void						handle_64(char *obj, void *end)
 {
 	struct mach_header_64		*header;
 	struct load_command			*lc;
@@ -144,9 +144,9 @@ void							handle_64(char *obj)
 			sects = parse_sects(lc, sects);
 		if (lc->cmd == LC_SYMTAB)
 		{
-			read_sym_table(obj, lc, &sym_list, sects);
+			read_sym_table(obj, lc, &sym_list, sects, end);
 			ft_lstdel(&sym_list, del);
-			break;
+			break ;
 		}
 		lc = (void *)lc + lc->cmdsize;
 	}
