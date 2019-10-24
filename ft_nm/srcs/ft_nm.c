@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/18 18:11:10 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/24 15:04:40 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,26 @@ void				read_obj(char *obj_name)
 	struct stat		buf;
 
 	if ((fd = open(obj_name, O_RDONLY)) < 0)
+	{
 		print_err("Error openning file", obj_name);
+		return ;
+	}
 	if (fstat(fd, &buf) < 0)
+	{
 		print_err("Error stating file", obj_name);
+		close(fd);
+		return ;
+	}
 	if ((obj = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == \
 			MAP_FAILED)
 		print_err("Error reading file", obj_name);
-	ft_nm(obj, obj + buf.st_size);
-	if (munmap(obj, buf.st_size) < 0)
-		print_err("Error munmap", "");
+	else
+	{
+		close(fd);
+		ft_nm(obj, obj + buf.st_size);
+		if (munmap(obj, buf.st_size) < 0)
+			print_err("Error munmap", "");
+	}
 }
 
 int					main(int argc, char *argv[])
