@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arch_64.c                                          :+:      :+:    :+:   */
+/*   arch_32.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/24 19:14:27 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/24 18:12:57 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-void		print_sym_64(t_list *sym_list)
+void		print_sym(t_list *sym_list)
 {
 	int							len;
 	t_list						*first;
@@ -20,7 +20,7 @@ void		print_sym_64(t_list *sym_list)
 	first = sym_list;
 	while (sym_list)
 	{
-		len = 17 - ft_countdigits_hex(((t_symbol *)(sym_list->content))->value);
+		len = 9 - ft_countdigits_hex(((t_symbol *)(sym_list->content))->value);
 		if (((t_symbol *)(sym_list->content))->value)
 		{
 			while (--len)
@@ -28,7 +28,7 @@ void		print_sym_64(t_list *sym_list)
 			ft_putnbr_hex_p(((t_symbol *)(sym_list->content))->value);
 		}
 		else
-			ft_putstr("                ");
+			ft_putstr("        ");
 		ft_putchar(' ');
 		ft_putchar(((t_symbol *)(sym_list->content))->type);
 		ft_putchar(' ');
@@ -39,7 +39,7 @@ void		print_sym_64(t_list *sym_list)
 	sym_list = first;
 }
 
-int			build_sym_list_64(struct nlist_64 symtab, \
+int			build_sym_list(struct nlist symtab, \
 		char *str_table, t_list **sym_list, t_sections *sects)
 {
 	t_symbol					*sym;
@@ -68,11 +68,11 @@ int			build_sym_list_64(struct nlist_64 symtab, \
 	return (ret);
 }
 
-void		read_sym_table_64(char *obj, struct load_command *lc, \
+void		read_sym_table(char *obj, struct load_command *lc, \
 		t_list **sym_list, t_sections *sects)
 {
 	struct symtab_command		*symtab_cmd;
-	struct nlist_64				*symtab;
+	struct nlist				*symtab;
 	char						*str_tab;
 	int							nb_sym;
 	int							i;
@@ -85,7 +85,7 @@ void		read_sym_table_64(char *obj, struct load_command *lc, \
 	while (i < nb_sym)
 	{
 		if ((symtab[i].n_type & N_STAB) == 0)
-			if (build_sym_list_64(symtab[i], str_tab, sym_list, sects) < 0)
+			if (build_sym_list(symtab[i], str_tab, sym_list, sects) < 0)
 			{
 				print_err("Error malloc", "");
 				return ;
@@ -93,42 +93,42 @@ void		read_sym_table_64(char *obj, struct load_command *lc, \
 		++i;
 	}
 	sym_lst_sort(*sym_list);
-	print_sym_64(*sym_list);
+	print_sym(*sym_list);
 }
 
-t_sections	*parse_sects_64(struct load_command *lc, \
+t_sections	*parse_sects(struct load_command *lc, \
 		t_sections *sects)
 {
-	struct segment_command_64	*segment_cmd;
-	struct section_64			*sections;
+	struct segment_command		*segment_cmd;
+	struct section				*sections;
 	int							nb_sects;
 	int							i;
 
 	if (sects == NULL && \
-		(sects = (t_sections *)malloc(sizeof(t_sections))) == NULL)
+			(sects = (t_sections *)malloc(sizeof(t_sections))) == NULL)
 		return (NULL);
-	segment_cmd = (struct segment_command_64 *)lc;
-	sections = (struct section_64*)((void *)segment_cmd + sizeof(*segment_cmd));
+	segment_cmd = (struct segment_command *)lc;
+	sections = (struct section*)((void *)segment_cmd + sizeof(*segment_cmd));
 	nb_sects = segment_cmd->nsects;
 	i = -1;
-	while (++i < nb_sects && ++sects->idx >= 0)
+	while (++i < nb_sects)
 	{
 		if (!ft_strcmp((sections + i)->sectname, SECT_TEXT) \
 				&& !ft_strcmp((sections + i)->segname, SEG_TEXT))
-			sects->text = sects->idx;
+			sects->text = i + 1;
 		if (!ft_strcmp((sections + i)->sectname, SECT_DATA) \
 				&& !ft_strcmp((sections + i)->segname, SEG_DATA))
-			sects->data = sects->idx;
+			sects->data = i + 1;
 		if (!ft_strcmp((sections + i)->sectname, SECT_BSS) \
 				&& !ft_strcmp((sections + i)->segname, SEG_DATA))
-			sects->bss = sects->idx;
+			sects->bss = i + 1;
 	}
 	return (sects);
 }
 
-void		handle_64(char *obj, void *end)
+void		handle_32(char *obj, void *end)
 {
-	struct mach_header_64		*header;
+	struct mach_header			*header;
 	struct load_command			*lc;
 	uint32_t					ncmds;
 	t_list						*sym_list;
@@ -136,17 +136,17 @@ void		handle_64(char *obj, void *end)
 
 	sym_list = NULL;
 	sects = NULL;
-	header = (struct mach_header_64*)obj;
-	lc = (void *)obj + sizeof(struct mach_header_64);
+	header = (struct mach_header*)obj;
+	lc = (void *)obj + sizeof(struct mach_header);
 	ncmds = header->ncmds;
 	while (ncmds--)
 	{
-		if (lc->cmd == LC_SEGMENT_64)
-			sects = parse_sects_64(lc, sects);
+		if (lc->cmd == LC_SEGMENT)
+			sects = parse_sects(lc, sects);
 		if (lc->cmd == LC_SYMTAB && check_corruption((void *)obj + ((struct \
 symtab_command *)lc)->symoff, end, ((struct symtab_command *)lc)->nsyms) == 0)
 		{
-			read_sym_table_64(obj, lc, &sym_list, sects);
+			read_sym_table(obj, lc, &sym_list, sects);
 			ft_lstdel(&sym_list, del);
 			break ;
 		}

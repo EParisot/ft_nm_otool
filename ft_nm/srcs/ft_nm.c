@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/24 15:04:40 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/24 16:49:17 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void				ft_nm(char *obj, void *end)
 	magic_nb = *(int *)obj;
 	if (magic_nb == MH_MAGIC_64)
 		handle_64(obj, end);
+	else if (magic_nb == MH_MAGIC)
+		handle_32(obj, end);
 }
 
 void				read_obj(char *obj_name)
