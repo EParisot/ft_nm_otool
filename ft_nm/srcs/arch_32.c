@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/24 18:12:57 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/24 19:35:01 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,17 +111,17 @@ t_sections	*parse_sects(struct load_command *lc, \
 	sections = (struct section*)((void *)segment_cmd + sizeof(*segment_cmd));
 	nb_sects = segment_cmd->nsects;
 	i = -1;
-	while (++i < nb_sects)
+	while (++i < nb_sects && ++sects->idx >= 0)
 	{
 		if (!ft_strcmp((sections + i)->sectname, SECT_TEXT) \
 				&& !ft_strcmp((sections + i)->segname, SEG_TEXT))
-			sects->text = i + 1;
+			sects->text = sects->idx;
 		if (!ft_strcmp((sections + i)->sectname, SECT_DATA) \
 				&& !ft_strcmp((sections + i)->segname, SEG_DATA))
-			sects->data = i + 1;
+			sects->data = sects->idx;
 		if (!ft_strcmp((sections + i)->sectname, SECT_BSS) \
 				&& !ft_strcmp((sections + i)->segname, SEG_DATA))
-			sects->bss = i + 1;
+			sects->bss = sects->idx;
 	}
 	return (sects);
 }

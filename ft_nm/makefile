@@ -6,7 +6,7 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2019/10/24 16:47:52 by eparisot         ###   ########.fr        #
+#    Updated: 2019/10/24 19:47:33 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,10 @@ all		:	$(LIBS) $(NAME)
 $(NAME)	:	$(OBJS) $(INC)
 	gcc $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
-$(LIBS)	:
+$(LIBS)	: 	.FORCE
 	@$(MAKE) -C ../libft
+
+.FORCE	:
 
 clean	:
 	$(RM) $(OBJS) && $(MAKE) clean -C ../libft
@@ -42,3 +44,5 @@ fclean	:	clean
 	$(RM) $(NAME) ../libft/libft.a
 
 re		:	fclean all
+
+.PHONY	: all re clean fclean
