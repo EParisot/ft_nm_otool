@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 20:25:27 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/24 19:10:42 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/25 04:32:19 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ char			get_type(uint32_t num_type, uint8_t sect, t_sections *sects)
 {
 	char		res;
 
+	if (sects == NULL)
+		return (0);
 	res = 'U';
 	if ((num_type & N_TYPE) == N_ABS)
 		res = 'A';

@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/24 16:49:17 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/25 04:15:52 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void				read_obj(char *obj_name)
 	}
 	if ((obj = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == \
 			MAP_FAILED)
-		print_err("Error reading file", obj_name);
+		print_err("Error mapping file", obj_name);
 	else
 	{
 		close(fd);
