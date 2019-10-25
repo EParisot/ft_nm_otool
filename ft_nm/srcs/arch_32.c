@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/24 19:35:01 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/25 03:54:29 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ t_sections	*parse_sects(struct load_command *lc, \
 	int							nb_sects;
 	int							i;
 
-	if (sects == NULL && \
-			(sects = (t_sections *)malloc(sizeof(t_sections))) == NULL)
+	if (sects == NULL && ((sects = (t_sections *)malloc(sizeof(t_sections))) ==\
+						NULL || (sects->idx = 0) != 0))
 		return (NULL);
 	segment_cmd = (struct segment_command *)lc;
 	sections = (struct section*)((void *)segment_cmd + sizeof(*segment_cmd));
@@ -139,12 +139,11 @@ void		handle_32(char *obj, void *end)
 	header = (struct mach_header*)obj;
 	lc = (void *)obj + sizeof(struct mach_header);
 	ncmds = header->ncmds;
-	while (ncmds--)
+	while (ncmds-- && (void*)lc + lc->cmdsize < end)
 	{
 		if (lc->cmd == LC_SEGMENT)
 			sects = parse_sects(lc, sects);
-		if (lc->cmd == LC_SYMTAB && check_corruption((void *)obj + ((struct \
-symtab_command *)lc)->symoff, end, ((struct symtab_command *)lc)->nsyms) == 0)
+		if (lc->cmd == LC_SYMTAB && check_corruption_32(obj, lc, end) == 0)
 		{
 			read_sym_table(obj, lc, &sym_list, sects);
 			ft_lstdel(&sym_list, del);
