@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/25 04:34:14 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/26 11:24:32 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_sections	*parse_sects_64(struct load_command *lc, \
 	int							i;
 
 	if (sects == NULL && ((sects = (t_sections *)malloc(sizeof(t_sections))) ==\
-						NULL || (sects->idx = 0) != 0))
+			NULL || (sects->idx = 0) || (sects->data = 0) || (sects->bss = 0)))
 		return (NULL);
 	segment_cmd = (struct segment_command_64 *)lc;
 	sections = (struct section_64*)((void *)segment_cmd + sizeof(*segment_cmd));
