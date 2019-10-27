@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 16:33:16 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 16:36:55 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ void		handle_32(void *obj, void *end)
 	sym_list = NULL;
 	sects = NULL;
 	header = (struct mach_header *)obj;
-	set_cpu(swap_32(header->cputype) == CPU_TYPE_POWERPC);
 	lc = obj + sizeof(struct mach_header);
 	ncmds = cpu_32(header->ncmds);
 	while (ncmds-- && !check_corruption_32(obj, lc, end))
