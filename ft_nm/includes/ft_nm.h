@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/25 02:25:49 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 13:14:58 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int				check_corruption_64(char *obj, struct load_command *lc, \
 					void *end);
 int				check_corruption_32(char *obj, struct load_command *lc, \
 					void *end);
+size_t			secure_len(t_list *symlist, void *end);
 void			sym_lst_sort(t_list *sym_list);
 char			get_type(uint32_t num_type, uint8_t sect, t_sections *sects);
 void			del(void *addr, size_t size);

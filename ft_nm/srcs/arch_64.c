@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/26 11:24:32 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 13:20:21 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-void		print_sym_64(t_list *sym_list)
+void		print_sym_64(t_list *sym_list, void *end)
 {
 	int							len;
 	t_list						*first;
@@ -32,7 +32,8 @@ void		print_sym_64(t_list *sym_list)
 		ft_putchar(' ');
 		ft_putchar(((t_symbol *)(sym_list->content))->type);
 		ft_putchar(' ');
-		ft_putstr(((t_symbol *)(sym_list->content))->name);
+		write(1, ((t_symbol *)(sym_list->content))->name, \
+				secure_len(sym_list, end));
 		ft_putchar('\n');
 		sym_list = sym_list->next;
 	}
@@ -93,7 +94,6 @@ void		read_sym_table_64(char *obj, struct load_command *lc, \
 		++i;
 	}
 	sym_lst_sort(*sym_list);
-	print_sym_64(*sym_list);
 }
 
 t_sections	*parse_sects_64(struct load_command *lc, \
@@ -136,16 +136,17 @@ void		handle_64(char *obj, void *end)
 
 	sym_list = NULL;
 	sects = NULL;
-	header = (struct mach_header_64*)obj;
+	header = (struct mach_header_64 *)obj;
 	lc = (void *)obj + sizeof(struct mach_header_64);
 	ncmds = header->ncmds;
-	while (ncmds-- && (void*)lc + lc->cmdsize < end)
+	while (ncmds-- && (void *)lc + lc->cmdsize < end)
 	{
 		if (lc->cmd == LC_SEGMENT_64)
 			sects = parse_sects_64(lc, sects);
 		if (lc->cmd == LC_SYMTAB && check_corruption_64(obj, lc, end) == 0)
 		{
 			read_sym_table_64(obj, lc, &sym_list, sects);
+			print_sym_64(sym_list, end);
 			ft_lstdel(&sym_list, del);
 			break ;
 		}
