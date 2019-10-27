@@ -17,7 +17,9 @@ for filename in ../hell/*; do
 			echo "OK"
 			OK=$((OK+1))
 		fi
-		TOT=$((TOT+1))
+		if [[ $MY_NM != *"not implemented"* ]]; then
+			TOT=$((TOT+1))
+		fi
 	else
 		if [[ $@ == "-64" ]] && [[ $filename == *"64"* ]] && [[ $filename != *"lib"* ]]; then
 			echo "TESTING $filename"
@@ -65,7 +67,9 @@ for filename in ../hell/*; do
 				echo "OK"
 				OK=$((OK+1))
 			fi
-			TOT=$((TOT+1))
+			if [[ $MY_NM != *"not implemented"* ]]; then
+				TOT=$((TOT+1))
+			fi
 		fi
 
 	fi
