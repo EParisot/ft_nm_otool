@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 18:58:40 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 19:08:56 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,11 @@ void		handle_32(void *obj, void *end)
 	header = (struct mach_header *)obj;
 	lc = obj + sizeof(struct mach_header);
 	ncmds = cpu_32(header->ncmds);
-	while (ncmds-- && (void *)lc + cpu_32(lc->cmdsize) < end)
+	while (ncmds-- && !check_corruption_32(obj, lc, end))
 	{
 		if (cpu_32(lc->cmd) == LC_SEGMENT)
 			sects = parse_sects(lc, sects);
-		if (cpu_32(lc->cmd) == LC_SYMTAB && !check_corruption_32(obj, lc, end))
+		if (cpu_32(lc->cmd) == LC_SYMTAB)
 		{
 			read_sym_table(obj, lc, &sym_list, sects);
 			print_sym(sym_list, end);

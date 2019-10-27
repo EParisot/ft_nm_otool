@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 17:59:22 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 18:59:10 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 19:13:57 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ int			check_corruption_64(void *obj, struct load_command *lc, void *end)
 	int						nb_sym;
 	char					*str_tab;
 
+	if ((void *)lc + cpu_64(lc->cmdsize) > end)
+		return (print_err("Error corrupted", ""));
 	symtab_cmd = (struct symtab_command *)lc;
 	str_tab = obj + cpu_64(symtab_cmd->stroff);
 	symtab = obj + cpu_64(symtab_cmd->symoff);
 	nb_sym = cpu_64(symtab_cmd->nsyms);
 	i = 0;
-	while (i < nb_sym)
-	{
-		if ((void *)symtab + i * sizeof(symtab) >= end || \
-			(void *)str_tab + cpu_64(symtab[i].n_un.n_strx) >= end)
+	if (cpu_64(lc->cmd) == LC_SYMTAB)
+		while (i < nb_sym)
 		{
-			print_err("Error corrupted", "");
-			return (1);
+			if ((void *)symtab + i * sizeof(symtab) >= end || \
+				(void *)str_tab + cpu_64(symtab[i].n_un.n_strx) >= end)
+				return (print_err("Error corrupted", ""));
+			++i;
 		}
-		++i;
-	}
 	return (0);
 }
 
@@ -46,21 +46,21 @@ int			check_corruption_32(void *obj, struct load_command *lc, void *end)
 	int							nb_sym;
 	char						*str_tab;
 
+	if ((void *)lc + cpu_32(lc->cmdsize) > end)
+		return (print_err("Error corrupted", ""));
 	symtab_cmd = (struct symtab_command *)lc;
 	str_tab = obj + cpu_32(symtab_cmd->stroff);
 	symtab = obj + cpu_32(symtab_cmd->symoff);
 	nb_sym = cpu_32(symtab_cmd->nsyms);
 	i = 0;
-	while (i < nb_sym)
-	{
-		if ((void *)symtab + i * sizeof(symtab) >= end || \
-			(void *)str_tab + cpu_32(symtab[i].n_un.n_strx) >= end)
+	if (cpu_32(lc->cmd) == LC_SYMTAB)
+		while (i < nb_sym)
 		{
-			print_err("Error corrupted", "");
-			return (1);
+			if ((void *)symtab + i * sizeof(symtab) >= end || \
+				(void *)str_tab + cpu_32(symtab[i].n_un.n_strx) >= end)
+				return (print_err("Error corrupted", ""));
+			++i;
 		}
-		++i;
-	}
 	return (0);
 }
 

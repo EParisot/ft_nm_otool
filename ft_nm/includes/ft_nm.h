@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 16:19:35 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 19:12:24 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct	s_sections
 	int			bss;
 }				t_sections;
 
-void			print_err(char *err, char *arg);
+int				print_err(char *err, char *arg);
 void			handle_64(void *obj, void *end);
 void			handle_32(void *obj, void *end);
 int				check_corruption_64(void *obj, struct load_command *lc, \

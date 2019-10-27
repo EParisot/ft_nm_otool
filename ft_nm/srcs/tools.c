@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 20:25:27 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 17:55:14 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 19:12:12 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void			del(void *addr, size_t size)
 	free(addr);
 }
 
-void			print_err(char *err, char *arg)
+int				print_err(char *err, char *arg)
 {
 	ft_putstr(err);
 	if (ft_strlen(arg))
@@ -28,6 +28,7 @@ void			print_err(char *err, char *arg)
 		ft_putstr("'");
 	}
 	ft_putchar('\n');
+	return (1);
 }
 
 static void		ft_lstswap(t_list *lst, t_list *next)
