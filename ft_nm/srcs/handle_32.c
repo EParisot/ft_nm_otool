@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 19:38:22 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 20:15:56 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-void		print_sym(t_list *sym_list, void *end)
+static void			print_sym(t_list *sym_list, void *end)
 {
 	int							len;
 	t_list						*first;
@@ -41,7 +41,7 @@ void		print_sym(t_list *sym_list, void *end)
 	sym_list = first;
 }
 
-int			build_sym_list(struct nlist symtab, \
+static int			build_sym_list(struct nlist symtab, \
 		char *str_table, t_list **sym_list, t_sections *sects)
 {
 	t_symbol					*sym;
@@ -70,8 +70,8 @@ int			build_sym_list(struct nlist symtab, \
 	return (ret);
 }
 
-void		read_sym_table(void *obj, struct load_command *lc, \
-		t_list **sym_list, t_sections *sects)
+static void			read_sym_table(void *obj, struct load_command *lc, \
+									t_list **sym_list, t_sections *sects)
 {
 	struct symtab_command		*symtab_cmd;
 	struct nlist				*symtab;
@@ -97,8 +97,8 @@ void		read_sym_table(void *obj, struct load_command *lc, \
 	sym_lst_sort(*sym_list);
 }
 
-t_sections	*parse_sects(struct load_command *lc, \
-		t_sections *sects)
+static t_sections	*parse_sects(struct load_command *lc, \
+									t_sections *sects)
 {
 	struct segment_command		*segment_cmd;
 	struct section				*sections;
@@ -127,7 +127,7 @@ t_sections	*parse_sects(struct load_command *lc, \
 	return (sects);
 }
 
-void		handle_32(void *obj, void *end)
+void				handle_32(void *obj, void *end)
 {
 	struct mach_header			*header;
 	struct load_command			*lc;

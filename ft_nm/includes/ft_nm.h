@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 19:12:24 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 20:12:43 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 typedef struct	s_symbol
 {
 	char		*name;
-	uint8_t		type;
 	uintmax_t	value;
+	uint8_t		type;
 }				t_symbol;
 
 typedef struct	s_sections
@@ -39,21 +39,21 @@ typedef struct	s_sections
 	int			bss;
 }				t_sections;
 
-int				print_err(char *err, char *arg);
 void			handle_64(void *obj, void *end);
 void			handle_32(void *obj, void *end);
 int				check_corruption_64(void *obj, struct load_command *lc, \
 					void *end);
 int				check_corruption_32(void *obj, struct load_command *lc, \
 					void *end);
-size_t			secure_len(t_list *symlist, void *end);
-void			sym_lst_sort(t_list *sym_list);
-char			get_type(uint32_t num_type, uint8_t sect, t_sections *sects);
-void			del(void *addr, size_t size);
 void			set_cpu(u_int8_t cpu);
 uint32_t		cpu_32(uint32_t n);
 uint64_t		cpu_64(uint64_t n);
 uint32_t		swap_32(uint32_t n);
 uint64_t		swap_64(uint64_t n);
+int				print_err(char *err, char *arg);
+size_t			secure_len(t_list *symlist, void *end);
+void			sym_lst_sort(t_list *sym_list);
+char			get_type(uint32_t num_type, uint8_t sect, t_sections *sects);
+void			del(void *addr, size_t size);
 
 #endif
