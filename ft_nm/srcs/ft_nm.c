@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 16:39:34 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 16:44:38 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void				ft_nm(char *obj, void *end)
 		(magic_nb == MH_MAGIC) ? set_cpu(0): set_cpu(1);
 		handle_32(obj, end);
 	}
+	else
+		ft_putstr("Error corrupted or not implemented\n");
 }
 
 void				read_obj(char *obj_name)

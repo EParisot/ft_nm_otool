@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 20:25:27 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/25 04:32:19 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 17:55:14 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ void			sym_lst_sort(t_list *sym_list)
 		{
 			if (ft_strcmp(((t_symbol *)(sym_list->content))->name, \
 					((t_symbol *)(sym_list->next->content))->name) > 0)
+				ft_lstswap(sym_list, sym_list->next);
+			else if (ft_strcmp(((t_symbol *)(sym_list->content))->name, \
+					((t_symbol *)(sym_list->next->content))->name) == 0 && \
+					((t_symbol *)(sym_list->content))->type > \
+					((t_symbol *)(sym_list->next->content))->type)
 				ft_lstswap(sym_list, sym_list->next);
 			sym_list = sym_list->next;
 		}
