@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 13:14:58 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 14:09:50 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct	s_symbol
 {
 	char		*name;
 	uint8_t		type;
-	uint64_t	value;
+	uintmax_t	value;
 }				t_symbol;
 
 typedef struct	s_sections
@@ -50,7 +50,10 @@ size_t			secure_len(t_list *symlist, void *end);
 void			sym_lst_sort(t_list *sym_list);
 char			get_type(uint32_t num_type, uint8_t sect, t_sections *sects);
 void			del(void *addr, size_t size);
-uint32_t		swap_32(uint32_t n);
-uint64_t		swap_64(uint64_t n);
+void			set_cpu(u_int8_t cpu);
+uintmax_t		cpu_32(uintmax_t n);
+uintmax_t		cpu_64(uintmax_t n);
+uintmax_t		swap_32(uintmax_t n);
+uintmax_t		swap_64(uintmax_t n);
 
 #endif

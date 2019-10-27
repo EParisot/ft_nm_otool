@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 13:20:21 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 14:16:36 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int			build_sym_list_64(struct nlist_64 symtab, \
 	ret = 0;
 	if ((sym = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
 		return (-1);
-	sym->name = (char *)str_table + symtab.n_un.n_strx;
-	sym->type = get_type(symtab.n_type, symtab.n_sect, sects);
-	sym->value = symtab.n_value;
+	sym->name = (char *)str_table + cpu_64(symtab.n_un.n_strx);
+	sym->type = get_type(cpu_64(symtab.n_type), cpu_64(symtab.n_sect), sects);
+	sym->value = cpu_64(symtab.n_value);
 	if (*sym_list == NULL)
 	{
 		if ((*sym_list = ft_lstnew(sym, sizeof(t_symbol))) == NULL)
@@ -79,9 +79,9 @@ void		read_sym_table_64(char *obj, struct load_command *lc, \
 	int							i;
 
 	symtab_cmd = (struct symtab_command *)lc;
-	str_tab = obj + symtab_cmd->stroff;
-	symtab = (void *)obj + symtab_cmd->symoff;
-	nb_sym = symtab_cmd->nsyms;
+	str_tab = obj + cpu_64(symtab_cmd->stroff);
+	symtab = (void *)obj + cpu_64(symtab_cmd->symoff);
+	nb_sym = cpu_64(symtab_cmd->nsyms);
 	i = 0;
 	while (i < nb_sym)
 	{
@@ -109,7 +109,7 @@ t_sections	*parse_sects_64(struct load_command *lc, \
 		return (NULL);
 	segment_cmd = (struct segment_command_64 *)lc;
 	sections = (struct section_64*)((void *)segment_cmd + sizeof(*segment_cmd));
-	nb_sects = segment_cmd->nsects;
+	nb_sects = cpu_64(segment_cmd->nsects);
 	i = -1;
 	while (++i < nb_sects && ++sects->idx >= 0)
 	{
@@ -138,19 +138,19 @@ void		handle_64(char *obj, void *end)
 	sects = NULL;
 	header = (struct mach_header_64 *)obj;
 	lc = (void *)obj + sizeof(struct mach_header_64);
-	ncmds = header->ncmds;
-	while (ncmds-- && (void *)lc + lc->cmdsize < end)
+	ncmds = cpu_64(header->ncmds);
+	while (ncmds-- && (void *)lc + cpu_64(lc->cmdsize) < end)
 	{
-		if (lc->cmd == LC_SEGMENT_64)
+		if (cpu_64(lc->cmd) == LC_SEGMENT_64)
 			sects = parse_sects_64(lc, sects);
-		if (lc->cmd == LC_SYMTAB && check_corruption_64(obj, lc, end) == 0)
+		if (cpu_64(lc->cmd) == LC_SYMTAB && !check_corruption_64(obj, lc, end))
 		{
 			read_sym_table_64(obj, lc, &sym_list, sects);
 			print_sym_64(sym_list, end);
 			ft_lstdel(&sym_list, del);
 			break ;
 		}
-		lc = (void *)lc + lc->cmdsize;
+		lc = (void *)lc + cpu_64(lc->cmdsize);
 	}
 	free(sects);
 }

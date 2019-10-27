@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 11:45:19 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 14:12:33 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@ void				ft_nm(char *obj, void *end)
 	unsigned int	magic_nb;
 
 	magic_nb = *(int *)obj;
-	if (magic_nb == MH_MAGIC_64)
+	if (magic_nb == MH_MAGIC_64 || magic_nb == MH_CIGAM_64)
+	{
+		(magic_nb == MH_MAGIC_64) ? set_cpu(0): set_cpu(1);
 		handle_64(obj, end);
-	else if (magic_nb == MH_MAGIC)
+	}
+	else if (magic_nb == MH_MAGIC || magic_nb == MH_CIGAM)
+	{
+		(magic_nb == MH_MAGIC) ? set_cpu(0): set_cpu(1);
 		handle_32(obj, end);
+	}
 }
 
 void				read_obj(char *obj_name)
