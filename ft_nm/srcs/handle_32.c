@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 20:15:56 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 20:28:45 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void			print_sym(t_list *sym_list, void *end)
 }
 
 static int			build_sym_list(struct nlist symtab, \
-		char *str_table, t_list **sym_list, t_sections *sects)
+						char *str_table, t_list **sym_list, t_sections *sects)
 {
 	t_symbol					*sym;
 	t_list						*cur_sym;
@@ -86,12 +86,12 @@ static void			read_sym_table(void *obj, struct load_command *lc, \
 	i = 0;
 	while (i < nb_sym)
 	{
-		if ((symtab[i].n_type & N_STAB) == 0)
-			if (build_sym_list(symtab[i], str_tab, sym_list, sects) < 0)
-			{
-				print_err("Error malloc", "");
-				return ;
-			}
+		if ((symtab[i].n_type & N_STAB) == 0 && \
+			build_sym_list(symtab[i], str_tab, sym_list, sects) < 0)
+		{
+			print_err("Error malloc", "");
+			return ;
+		}
 		++i;
 	}
 	sym_lst_sort(*sym_list);
