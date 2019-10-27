@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 14:17:07 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 16:22:08 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		print_sym(t_list *sym_list, void *end)
 		{
 			while (--len)
 				ft_putchar('0');
-			ft_putnbr_hex_p(((t_symbol *)(sym_list->content))->value);
+			ft_putnbr_hex_p((uintmax_t)((t_symbol*)(sym_list->content))->value);
 		}
 		else
 			ft_putstr("        ");
@@ -51,7 +51,7 @@ int			build_sym_list(struct nlist symtab, \
 	if ((sym = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
 		return (-1);
 	sym->name = (char *)str_table + cpu_32(symtab.n_un.n_strx);
-	sym->type = get_type(cpu_32(symtab.n_type), cpu_32(symtab.n_sect), sects);
+	sym->type = get_type(symtab.n_type, symtab.n_sect, sects);
 	sym->value = cpu_32(symtab.n_value);
 	if (*sym_list == NULL)
 	{
@@ -69,7 +69,7 @@ int			build_sym_list(struct nlist symtab, \
 	return (ret);
 }
 
-void		read_sym_table(char *obj, struct load_command *lc, \
+void		read_sym_table(void *obj, struct load_command *lc, \
 		t_list **sym_list, t_sections *sects)
 {
 	struct symtab_command		*symtab_cmd;
@@ -80,7 +80,7 @@ void		read_sym_table(char *obj, struct load_command *lc, \
 
 	symtab_cmd = (struct symtab_command *)lc;
 	str_tab = obj + cpu_32(symtab_cmd->stroff);
-	symtab = (void *)obj + cpu_32(symtab_cmd->symoff);
+	symtab = obj + cpu_32(symtab_cmd->symoff);
 	nb_sym = cpu_32(symtab_cmd->nsyms);
 	i = 0;
 	while (i < nb_sym)
@@ -126,7 +126,7 @@ t_sections	*parse_sects(struct load_command *lc, \
 	return (sects);
 }
 
-void		handle_32(char *obj, void *end)
+void		handle_32(void *obj, void *end)
 {
 	struct mach_header			*header;
 	struct load_command			*lc;
@@ -137,7 +137,8 @@ void		handle_32(char *obj, void *end)
 	sym_list = NULL;
 	sects = NULL;
 	header = (struct mach_header *)obj;
-	lc = (void *)obj + sizeof(struct mach_header);
+	set_cpu(swap_32(header->cputype) == CPU_TYPE_POWERPC);
+	lc = obj + sizeof(struct mach_header);
 	ncmds = cpu_32(header->ncmds);
 	while (ncmds-- && (void *)lc + cpu_32(lc->cmdsize) < end)
 	{
@@ -147,10 +148,10 @@ void		handle_32(char *obj, void *end)
 		{
 			read_sym_table(obj, lc, &sym_list, sects);
 			print_sym(sym_list, end);
-			ft_lstdel(&sym_list, del);
 			break ;
 		}
 		lc = (void *)lc + cpu_32(lc->cmdsize);
 	}
+	ft_lstdel(&sym_list, del);
 	free(sects);
 }

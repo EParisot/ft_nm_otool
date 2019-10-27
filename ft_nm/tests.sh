@@ -2,7 +2,7 @@
 make
 OK=0
 TOT=0
-for filename in ../ft_nm-ft_otool_binaire_de_test/hell/*; do
+for filename in ../hell/*; do
 	if [[ $@ == "-A" ]]; then
 		echo "TESTING $filename"
 		MY_NM=$( ./ft_nm $filename )

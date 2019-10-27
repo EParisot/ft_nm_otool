@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 17:59:22 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 14:19:18 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 16:05:30 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-int			check_corruption_64(char *obj, struct load_command *lc, void *end)
+int			check_corruption_64(void *obj, struct load_command *lc, void *end)
 {
 	int						i;
 	struct symtab_command	*symtab_cmd;
@@ -22,7 +22,7 @@ int			check_corruption_64(char *obj, struct load_command *lc, void *end)
 
 	symtab_cmd = (struct symtab_command *)lc;
 	str_tab = obj + cpu_64(symtab_cmd->stroff);
-	symtab = (void *)obj + cpu_64(symtab_cmd->symoff);
+	symtab = obj + cpu_64(symtab_cmd->symoff);
 	nb_sym = cpu_64(symtab_cmd->nsyms);
 	i = 0;
 	while (i < nb_sym)
@@ -38,7 +38,7 @@ int			check_corruption_64(char *obj, struct load_command *lc, void *end)
 	return (0);
 }
 
-int			check_corruption_32(char *obj, struct load_command *lc, void *end)
+int			check_corruption_32(void *obj, struct load_command *lc, void *end)
 {
 	int							i;
 	struct symtab_command		*symtab_cmd;
@@ -48,7 +48,7 @@ int			check_corruption_32(char *obj, struct load_command *lc, void *end)
 
 	symtab_cmd = (struct symtab_command *)lc;
 	str_tab = obj + cpu_32(symtab_cmd->stroff);
-	symtab = (void *)obj + cpu_32(symtab_cmd->symoff);
+	symtab = obj + cpu_32(symtab_cmd->symoff);
 	nb_sym = cpu_32(symtab_cmd->nsyms);
 	i = 0;
 	while (i < nb_sym)
@@ -75,13 +75,13 @@ size_t		secure_len(t_list *symlist, void *end)
 	return (str_len);
 }
 
-uintmax_t	swap_32(uintmax_t n)
+uint32_t	swap_32(uint32_t n)
 {
 	n = ((n << 8) & 0xFF00FF00) | ((n >> 8) & 0xFF00FF);
 	return ((n << 16) | (n >> 16));
 }
 
-uintmax_t	swap_64(uintmax_t n)
+uint64_t	swap_64(uint64_t n)
 {
 	n = ((n << 8) & 0xFF00FF00FF00FF00ULL) \
 		| ((n >> 8) & 0x00FF00FF00FF00FFULL);

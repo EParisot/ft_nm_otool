@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 14:16:36 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 16:21:57 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		print_sym_64(t_list *sym_list, void *end)
 		{
 			while (--len)
 				ft_putchar('0');
-			ft_putnbr_hex_p(((t_symbol *)(sym_list->content))->value);
+			ft_putnbr_hex_p((uintmax_t)((t_symbol*)(sym_list->content))->value);
 		}
 		else
 			ft_putstr("                ");
@@ -69,7 +69,7 @@ int			build_sym_list_64(struct nlist_64 symtab, \
 	return (ret);
 }
 
-void		read_sym_table_64(char *obj, struct load_command *lc, \
+void		read_sym_table_64(void *obj, struct load_command *lc, \
 		t_list **sym_list, t_sections *sects)
 {
 	struct symtab_command		*symtab_cmd;
@@ -80,7 +80,7 @@ void		read_sym_table_64(char *obj, struct load_command *lc, \
 
 	symtab_cmd = (struct symtab_command *)lc;
 	str_tab = obj + cpu_64(symtab_cmd->stroff);
-	symtab = (void *)obj + cpu_64(symtab_cmd->symoff);
+	symtab = obj + cpu_64(symtab_cmd->symoff);
 	nb_sym = cpu_64(symtab_cmd->nsyms);
 	i = 0;
 	while (i < nb_sym)
@@ -126,7 +126,7 @@ t_sections	*parse_sects_64(struct load_command *lc, \
 	return (sects);
 }
 
-void		handle_64(char *obj, void *end)
+void		handle_64(void *obj, void *end)
 {
 	struct mach_header_64		*header;
 	struct load_command			*lc;
@@ -137,7 +137,7 @@ void		handle_64(char *obj, void *end)
 	sym_list = NULL;
 	sects = NULL;
 	header = (struct mach_header_64 *)obj;
-	lc = (void *)obj + sizeof(struct mach_header_64);
+	lc = obj + sizeof(struct mach_header_64);
 	ncmds = cpu_64(header->ncmds);
 	while (ncmds-- && (void *)lc + cpu_64(lc->cmdsize) < end)
 	{
@@ -147,10 +147,10 @@ void		handle_64(char *obj, void *end)
 		{
 			read_sym_table_64(obj, lc, &sym_list, sects);
 			print_sym_64(sym_list, end);
-			ft_lstdel(&sym_list, del);
 			break ;
 		}
 		lc = (void *)lc + cpu_64(lc->cmdsize);
 	}
+	ft_lstdel(&sym_list, del);
 	free(sects);
 }

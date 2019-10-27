@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 14:09:50 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 16:19:35 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,20 @@ typedef struct	s_sections
 }				t_sections;
 
 void			print_err(char *err, char *arg);
-void			handle_64(char *obj, void *end);
-void			handle_32(char *obj, void *end);
-int				check_corruption_64(char *obj, struct load_command *lc, \
+void			handle_64(void *obj, void *end);
+void			handle_32(void *obj, void *end);
+int				check_corruption_64(void *obj, struct load_command *lc, \
 					void *end);
-int				check_corruption_32(char *obj, struct load_command *lc, \
+int				check_corruption_32(void *obj, struct load_command *lc, \
 					void *end);
 size_t			secure_len(t_list *symlist, void *end);
 void			sym_lst_sort(t_list *sym_list);
 char			get_type(uint32_t num_type, uint8_t sect, t_sections *sects);
 void			del(void *addr, size_t size);
 void			set_cpu(u_int8_t cpu);
-uintmax_t		cpu_32(uintmax_t n);
-uintmax_t		cpu_64(uintmax_t n);
-uintmax_t		swap_32(uintmax_t n);
-uintmax_t		swap_64(uintmax_t n);
+uint32_t		cpu_32(uint32_t n);
+uint64_t		cpu_64(uint64_t n);
+uint32_t		swap_32(uint32_t n);
+uint64_t		swap_64(uint64_t n);
 
 #endif

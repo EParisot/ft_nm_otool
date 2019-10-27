@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 13:26:13 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 14:08:07 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 16:04:27 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void			set_cpu(u_int8_t cpu)
 	*get_cpu() = cpu;
 }
 
-uintmax_t		cpu_32(uintmax_t n)
+uint32_t		cpu_32(uint32_t n)
 {
 	uint8_t	cpu;
 
@@ -34,7 +34,7 @@ uintmax_t		cpu_32(uintmax_t n)
 	return (n);
 }
 
-uintmax_t		cpu_64(uintmax_t n)
+uint64_t		cpu_64(uint64_t n)
 {
 	uint8_t	cpu;
 
