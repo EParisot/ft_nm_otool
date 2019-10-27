@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 17:59:22 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 16:05:30 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 16:32:50 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int			check_corruption_64(void *obj, struct load_command *lc, void *end)
 	while (i < nb_sym)
 	{
 		if ((void *)symtab + i * sizeof(symtab) >= end || \
-			(void *)str_tab + cpu_64(symtab[i].n_un.n_strx) >= end)
+			(void *)str_tab + cpu_64(symtab[i].n_un.n_strx) >= end || \
+			(void *)lc + cpu_64(lc->cmdsize) >= end)
 		{
 			print_err("Error corrupted", "");
 			return (1);
@@ -54,7 +55,8 @@ int			check_corruption_32(void *obj, struct load_command *lc, void *end)
 	while (i < nb_sym)
 	{
 		if ((void *)symtab + i * sizeof(symtab) >= end || \
-			(void *)str_tab + cpu_32(symtab[i].n_un.n_strx) >= end)
+			(void *)str_tab + cpu_32(symtab[i].n_un.n_strx) >= end || \
+			(void *)lc + cpu_32(lc->cmdsize) >= end)
 		{
 			print_err("Error corrupted", "");
 			return (1);
