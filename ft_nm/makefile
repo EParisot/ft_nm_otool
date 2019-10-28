@@ -6,7 +6,7 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2019/10/27 19:36:56 by eparisot         ###   ########.fr        #
+#    Updated: 2019/10/28 13:44:40 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME	=	ft_nm
 SRCS	=	srcs/ft_nm.c \
 			srcs/handle_64.c \
 			srcs/handle_32.c \
+			srcs/handle_fat.c \
 			srcs/check_swaps.c \
 			srcs/tools.c \
 			srcs/tools2.c

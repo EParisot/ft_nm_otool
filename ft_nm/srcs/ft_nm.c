@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 20:14:08 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/28 13:47:06 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-static void			ft_nm(char *obj, void *end)
+void				ft_nm(void *obj, void *end)
 {
 	unsigned int	magic_nb;
 
@@ -27,6 +27,10 @@ static void			ft_nm(char *obj, void *end)
 		(magic_nb == MH_MAGIC) ? set_cpu(0): set_cpu(1);
 		handle_32(obj, end);
 	}
+	else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
+		handle_fat(obj, end, 64);
+	else if (magic_nb == FAT_MAGIC || magic_nb == FAT_CIGAM)
+		handle_fat(obj, end, 32);
 	else
 		ft_putstr("Error corrupted or not implemented\n");
 }
@@ -34,7 +38,7 @@ static void			ft_nm(char *obj, void *end)
 static void			read_obj(char *obj_name)
 {
 	int				fd;
-	char			*obj;
+	void			*obj;
 	struct stat		buf;
 
 	if ((fd = open(obj_name, O_RDONLY)) < 0)
