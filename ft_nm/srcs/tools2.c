@@ -6,13 +6,14 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 17:59:22 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 19:13:57 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/28 18:42:12 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-int			check_corruption_64(void *obj, struct load_command *lc, void *end)
+int			check_corruption_64(void *obj, struct load_command *lc, void *end, \
+								char *filename)
 {
 	int						i;
 	struct symtab_command	*symtab_cmd;
@@ -21,7 +22,7 @@ int			check_corruption_64(void *obj, struct load_command *lc, void *end)
 	char					*str_tab;
 
 	if ((void *)lc + cpu_64(lc->cmdsize) > end)
-		return (print_err("Error corrupted", ""));
+		return (print_err("Error corrupted", filename));
 	symtab_cmd = (struct symtab_command *)lc;
 	str_tab = obj + cpu_64(symtab_cmd->stroff);
 	symtab = obj + cpu_64(symtab_cmd->symoff);
@@ -32,13 +33,14 @@ int			check_corruption_64(void *obj, struct load_command *lc, void *end)
 		{
 			if ((void *)symtab + i * sizeof(symtab) >= end || \
 				(void *)str_tab + cpu_64(symtab[i].n_un.n_strx) >= end)
-				return (print_err("Error corrupted", ""));
+				return (print_err("Error corrupted", filename));
 			++i;
 		}
 	return (0);
 }
 
-int			check_corruption_32(void *obj, struct load_command *lc, void *end)
+int			check_corruption_32(void *obj, struct load_command *lc, void *end, \
+									char *filename)
 {
 	int							i;
 	struct symtab_command		*symtab_cmd;
@@ -47,7 +49,7 @@ int			check_corruption_32(void *obj, struct load_command *lc, void *end)
 	char						*str_tab;
 
 	if ((void *)lc + cpu_32(lc->cmdsize) > end)
-		return (print_err("Error corrupted", ""));
+		return (print_err("Error corrupted", filename));
 	symtab_cmd = (struct symtab_command *)lc;
 	str_tab = obj + cpu_32(symtab_cmd->stroff);
 	symtab = obj + cpu_32(symtab_cmd->symoff);
@@ -58,7 +60,7 @@ int			check_corruption_32(void *obj, struct load_command *lc, void *end)
 		{
 			if ((void *)symtab + i * sizeof(symtab) >= end || \
 				(void *)str_tab + cpu_32(symtab[i].n_un.n_strx) >= end)
-				return (print_err("Error corrupted", ""));
+				return (print_err("Error corrupted", filename));
 			++i;
 		}
 	return (0);

@@ -4,7 +4,7 @@ OK=0
 TOT=0
 for filename in ../hell/*; do
 	FOUND=0
-	if [[ $@ == "-A" ]]; then
+	if [[ $@ == "-A" ]] && [[ $filename != *"lib"* ]]; then
 		echo "TESTING $filename"
 		MY_NM=$( ./ft_nm $filename )
 		if [[ $? -eq 139 ]]; then
@@ -21,7 +21,7 @@ for filename in ../hell/*; do
 			TOT=$((TOT+1))
 		fi
 	else
-		if [[ $@ == "-64" ]] && [[ $filename == *"64"* ]] && [[ $filename != *"lib"* ]]; then
+		if [[ $@ == "-64" ]] && [[ $filename == *"64"* ]] && [[ $filename != *"lib"* ]] && [[ $filename != *"fat"* ]]; then
 			echo "TESTING $filename"
 			MY_NM=$( ./ft_nm $filename )
 			if [[ $? -eq 139 ]]; then
@@ -31,7 +31,7 @@ for filename in ../hell/*; do
 			REAL_NM=$( nm $filename )
 			FOUND=1
 		fi
-		if [[ $@ == "-32" ]] && [[ $filename == *"32"* ]] && [[ $filename != *"lib"* ]]; then
+		if [[ $@ == "-32" ]] && [[ $filename == *"32"* ]] && [[ $filename != *"lib"* ]] && [[ $filename != *"fat"* ]]; then
 			echo "TESTING $filename"
 			MY_NM=$( ./ft_nm $filename )
 			if [[ $? -eq 139 ]]; then
@@ -41,7 +41,7 @@ for filename in ../hell/*; do
 			REAL_NM=$( nm $filename )
 			FOUND=1
 		fi
-		if [[ $@ == "-lib" ]] && [[ $filename == *"lib"* ]]; then
+		if [[ $@ == "-fat" ]] && [[ $filename == *"fat"* ]] && [[ $filename != *"lib"* ]]; then
 			echo "TESTING $filename"
 			MY_NM=$( ./ft_nm $filename )
 			if [[ $? -eq 139 ]]; then
@@ -51,7 +51,17 @@ for filename in ../hell/*; do
 			REAL_NM=$( nm $filename )
 			FOUND=1
 		fi
-		if [[ $@ == "-E" ]] && [[ $filename != *"64"* ]] && [[ $filename != *"32"* ]] && [[ $filename != *"lib"* ]]; then
+		if [[ $@ == "-lib" ]] && [[ $filename == *"lib"* ]] && [[ $filename != *"fat"* ]]; then
+			echo "TESTING $filename"
+			MY_NM=$( ./ft_nm $filename )
+			if [[ $? -eq 139 ]]; then
+				echo "CRASHED"
+				exit 1
+			fi
+			REAL_NM=$( nm $filename )
+			FOUND=1
+		fi
+		if [[ $@ == "-E" ]] && [[ $filename != *"64"* ]] && [[ $filename != *"32"* ]] && [[ $filename != *"lib"* ]] && [[ $filename != *"fat"* ]]; then
 			echo "TESTING $filename"
 			MY_NM=$( ./ft_nm $filename )
 			if [[ $? -eq 139 ]]; then

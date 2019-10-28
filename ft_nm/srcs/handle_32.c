@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/27 20:28:45 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/28 18:43:15 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static t_sections	*parse_sects(struct load_command *lc, \
 	return (sects);
 }
 
-void				handle_32(void *obj, void *end)
+void				handle_32(void *obj, void *end, char *filename)
 {
 	struct mach_header			*header;
 	struct load_command			*lc;
@@ -140,7 +140,7 @@ void				handle_32(void *obj, void *end)
 	header = (struct mach_header *)obj;
 	lc = obj + sizeof(struct mach_header);
 	ncmds = cpu_32(header->ncmds);
-	while (ncmds-- && !check_corruption_32(obj, lc, end))
+	while (ncmds-- && !check_corruption_32(obj, lc, end, filename))
 	{
 		if (cpu_32(lc->cmd) == LC_SEGMENT)
 			sects = parse_sects(lc, sects);

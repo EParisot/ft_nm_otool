@@ -6,13 +6,15 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/28 13:46:15 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/28 19:25:54 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_NM
 
 # define FT_NM
+# define AR_MAGIC 0x72613c21
+# define AR_CIGAM 0x213c6172
 
 # include "../../libft/libft.h"
 # include <unistd.h>
@@ -24,6 +26,7 @@
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
 # include <mach-o/fat.h>
+# include <ar.h>
 
 typedef struct	s_symbol
 {
@@ -40,14 +43,17 @@ typedef struct	s_sections
 	int			bss;
 }				t_sections;
 
-void			ft_nm(void *obj, void *end);
-void			handle_64(void *obj, void *end);
-void			handle_32(void *obj, void *end);
-void			handle_fat(void *obj, void *end, int type);
+void			ft_nm(void *obj, void *end, char *obj_name);
+void			handle_64(void *obj, void *end, char *filename);
+void			handle_32(void *obj, void *end, char *filename);
+void			handle_fat(void *obj, void *end, int type, char *filename);
+int				handle_arch(void *obj, void *end, char *filename);
 int				check_corruption_64(void *obj, struct load_command *lc, \
-					void *end);
+					void *end, char *filename);
 int				check_corruption_32(void *obj, struct load_command *lc, \
-					void *end);
+					void *end, char *filename);
+char			*get_arch_name(int type);
+int				is_arch(int type);
 void			set_cpu(u_int8_t cpu);
 uint32_t		cpu_32(uint32_t n);
 uint64_t		cpu_64(uint64_t n);
