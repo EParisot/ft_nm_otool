@@ -6,7 +6,7 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2019/10/29 11:04:00 by eparisot         ###   ########.fr        #
+#    Updated: 2019/10/30 00:45:50 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME	=	ft_otool
 
 SRCS	=	srcs/ft_otool.c \
 			srcs/handle_64.c \
+			srcs/handle_32.c \
 			srcs/check_swaps.c \
 			srcs/tools.c \
 			srcs/tools2.c \

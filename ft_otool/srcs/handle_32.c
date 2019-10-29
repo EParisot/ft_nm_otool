@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_64.c                                        :+:      :+:    :+:   */
+/*   handle_32.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 00:43:25 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/30 00:48:33 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_otool.h"
 
-static void		print_64(void *obj, uint64_t i, uint64_t addr, uint64_t size)
+static void		print_32(void *obj, uint32_t i, uint32_t addr, uint32_t size)
 {
 	int				len;
 
 	if (i % 16 == 0)
 	{
-		len = 16 - ft_countdigits_hex(addr + i);
-		write(1, "0000000000000000", len);
+		len = 8 - ft_countdigits_hex(addr + i);
+		write(1, "00000000", len);
 		ft_putnbr_hex_p((uintmax_t)(addr + i));
 		ft_putchar('\t');
 	}
@@ -35,30 +35,30 @@ static void		print_64(void *obj, uint64_t i, uint64_t addr, uint64_t size)
 		ft_putchar('\n');
 }
 
-static int		print_txt_64(void *obj, uint64_t addr, uint64_t size, void *end)
+static int		print_txt_32(void *obj, uint64_t addr, uint32_t size, void *end)
 {
-	uint64_t					i;
+	uint32_t					i;
 
 	i = -1;
 	if (obj + size > end)
 		return (print_err("Error corrupted\n", ""));
 	while (++i < size)
-		print_64(obj, i, addr, size);
+		print_32(obj, i, addr, size);
 	ft_putchar('\n');
 	return (0);
 }
 
-static void		parse_sects_64(void *obj, struct load_command *lc, \
+static void		parse_sects_32(void *obj, struct load_command *lc, \
 									char *filename, void *end)
 {
-	struct segment_command_64	*segment_cmd;
-	struct section_64			*sections;
+	struct segment_command		*segment_cmd;
+	struct section				*sections;
 	int							nb_sects;
 	int							i;
 
-	segment_cmd = (struct segment_command_64 *)lc;
-	sections = (struct section_64*)((void *)segment_cmd + sizeof(*segment_cmd));
-	nb_sects = cpu_64(segment_cmd->nsects);
+	segment_cmd = (struct segment_command *)lc;
+	sections = (struct section*)((void *)segment_cmd + sizeof(*segment_cmd));
+	nb_sects = cpu_32(segment_cmd->nsects);
 	i = -1;
 	while (++i < nb_sects)
 	{
@@ -68,27 +68,27 @@ static void		parse_sects_64(void *obj, struct load_command *lc, \
 			ft_putstr(filename);
 			ft_putstr(":\n");
 			ft_putstr("Contents of (__TEXT,__text) section\n");
-			print_txt_64(obj + cpu_64((sections + i)->offset), \
-								cpu_64((sections + i)->addr), \
-								cpu_64((sections + i)->size), end);
+			print_txt_32(obj + cpu_32((sections + i)->offset), \
+								cpu_32((sections + i)->addr), \
+								cpu_32((sections + i)->size), end);
 			break ;
 		}
 	}
 }
 
-void			handle_64(void *obj, void *end, char *filename)
+void			handle_32(void *obj, void *end, char *filename)
 {
-	struct mach_header_64		*header;
+	struct mach_header			*header;
 	struct load_command			*lc;
 	uint32_t					ncmds;
 
-	header = (struct mach_header_64 *)obj;
-	lc = obj + sizeof(struct mach_header_64);
-	ncmds = cpu_64(header->ncmds);
-	while (ncmds-- && !check_corruption_64(obj, lc, end, filename))
+	header = (struct mach_header *)obj;
+	lc = obj + sizeof(struct mach_header);
+	ncmds = cpu_32(header->ncmds);
+	while (ncmds-- && !check_corruption_32(obj, lc, end, filename))
 	{
-		if (cpu_64(lc->cmd) == LC_SEGMENT_64)
-			parse_sects_64(obj, lc, filename, end);
-		lc = (void *)lc + cpu_64(lc->cmdsize);
+		if (cpu_32(lc->cmd) == LC_SEGMENT)
+			parse_sects_32(obj, lc, filename, end);
+		lc = (void *)lc + cpu_32(lc->cmdsize);
 	}
 }

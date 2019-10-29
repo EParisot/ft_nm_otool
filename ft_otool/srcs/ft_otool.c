@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/29 18:36:27 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/30 00:44:09 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void				ft_otool(void *obj, void *end, char *obj_name)
 		(magic_nb == MH_MAGIC_64) ? set_cpu(0) : set_cpu(1);
 		handle_64(obj, end, obj_name);
 	}
-/*	else if (magic_nb == MH_MAGIC || magic_nb == MH_CIGAM)
+	else if (magic_nb == MH_MAGIC || magic_nb == MH_CIGAM)
 	{
 		(magic_nb == MH_MAGIC) ? set_cpu(0): set_cpu(1);
 		handle_32(obj, end, obj_name);
 	}
-	else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
+	/*else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
 		handle_fat(obj, end, 64, obj_name);
 	else if (magic_nb == FAT_MAGIC || magic_nb == FAT_CIGAM)
 		handle_fat(obj, end, 32, obj_name);
