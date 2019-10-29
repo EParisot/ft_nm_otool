@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 17:59:22 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/28 18:42:12 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/29 17:59:26 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int			check_corruption_32(void *obj, struct load_command *lc, void *end, \
 		}
 	return (0);
 }
-
 
 size_t		secure_len(t_list *symlist, void *end)
 {

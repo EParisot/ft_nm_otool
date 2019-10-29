@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 13:23:17 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/28 19:28:41 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/29 18:28:25 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-void			print_arch(char *filename, char *arch)
+void			print_ar(char *filename, char *arch)
 {
 	ft_putchar('\n');
 	ft_putstr(filename);
@@ -37,7 +37,7 @@ static void		fat64_loop(void *obj, uint64_t nf, void *end, char *filename)
 			if (i == 0 && nf > 1 && is_arch(swap_32(fatarch[i + 1].cputype)))
 				continue ;
 			if (nf - 1 > i)
-				print_arch(filename, get_arch_name(swap_64(fatarch[i].cputype)));
+				print_ar(filename, get_arch_name(swap_64(fatarch[i].cputype)));
 			ft_nm(obj + swap_64(fatarch[i].offset), end, filename);
 		}
 		else
@@ -61,7 +61,7 @@ static void		fat32_loop(void *obj, uint32_t nf, void *end, char *filename)
 			if (i == 0 && nf > 1 && is_arch(swap_32(fatarch[i + 1].cputype)))
 				continue ;
 			if (nf - 1 > i)
-				print_arch(filename, get_arch_name(swap_32(fatarch[i].cputype)));
+				print_ar(filename, get_arch_name(swap_32(fatarch[i].cputype)));
 			ft_nm(obj + swap_32(fatarch[i].offset), end, filename);
 		}
 		else
@@ -102,9 +102,10 @@ int				handle_arch(void *obj, void *end, char *filename)
 		str = obj + sizeof(struct ar_hdr);
 		if (obj + (ft_atoi(header->ar_size) + sizeof(struct ar_hdr)) >= end)
 			return (print_err("Error corrupted\n", filename));
-		print_arch(filename, str);
+		print_ar(filename, str);
 		len = ft_strlen(str);
-		while (!str[len++]);
+		while (!str[len++])
+			;
 		ft_nm(obj + sizeof(struct ar_hdr) + len - 1, end, filename);
 		obj += ft_atoi(header->ar_size) + sizeof(struct ar_hdr);
 	}

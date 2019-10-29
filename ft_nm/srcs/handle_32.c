@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/28 18:43:15 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/29 18:23:29 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,25 +105,24 @@ static t_sections	*parse_sects(struct load_command *lc, \
 	int							nb_sects;
 	int							i;
 
-	if (sects == NULL && ((sects = (t_sections *)malloc(sizeof(t_sections))) ==\
-			NULL || (sects->idx = 0) || (sects->data = 0) || (sects->bss = 0)))
+	if (sects == NULL && !(sects = (t_sections *)malloc(sizeof(t_sections))))
 		return (NULL);
+	if (sects == NULL)
+		ft_bzero(sects, sizeof(t_sections));
 	segment_cmd = (struct segment_command *)lc;
 	sections = (struct section*)((void *)segment_cmd + sizeof(*segment_cmd));
 	nb_sects = cpu_32(segment_cmd->nsects);
 	i = -1;
 	while (++i < nb_sects && ++sects->idx >= 0)
-	{
 		if (!ft_strcmp((sections + i)->sectname, SECT_TEXT) \
 				&& !ft_strcmp((sections + i)->segname, SEG_TEXT))
 			sects->text = sects->idx;
-		if (!ft_strcmp((sections + i)->sectname, SECT_DATA) \
+		else if (!ft_strcmp((sections + i)->sectname, SECT_DATA) \
 				&& !ft_strcmp((sections + i)->segname, SEG_DATA))
 			sects->data = sects->idx;
-		if (!ft_strcmp((sections + i)->sectname, SECT_BSS) \
+		else if (!ft_strcmp((sections + i)->sectname, SECT_BSS) \
 				&& !ft_strcmp((sections + i)->segname, SEG_DATA))
 			sects->bss = sects->idx;
-	}
 	return (sects);
 }
 
