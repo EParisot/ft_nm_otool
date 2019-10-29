@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/29 18:35:29 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:20:28 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ static void		print_txt(void *obj, uint64_t i, uint64_t addr, uint64_t size)
 
 	if (i % 16 == 0)
 	{
-		len = 17 - ft_countdigits_hex(addr + i);
-		while (--len)
-			ft_putchar('0');
+		len = 16 - ft_countdigits_hex(addr + i);
+		write(1, "0000000000000000", len);
 		ft_putnbr_hex_p((uintmax_t)(addr + i));
 		ft_putchar('\t');
 	}

@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/29 18:23:29 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:17:08 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ static void			print_sym(t_list *sym_list, void *end)
 	first = sym_list;
 	while (sym_list)
 	{
-		len = 9 - ft_countdigits_hex(((t_symbol *)(sym_list->content))->value);
+		len = 8 - ft_countdigits_hex(((t_symbol *)(sym_list->content))->value);
 		if (((t_symbol *)(sym_list->content))->type != 'U' && \
 			((t_symbol *)(sym_list->content))->type != 'u')
 		{
-			while (--len)
-				ft_putchar('0');
+			write(1, "00000000", len);
 			ft_putnbr_hex_p((uintmax_t)((t_symbol*)(sym_list->content))->value);
 		}
 		else

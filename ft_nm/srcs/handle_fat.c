@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 13:23:17 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/29 18:28:25 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:18:11 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int				handle_arch(void *obj, void *end, char *filename)
 			return (print_err("Error corrupted\n", filename));
 		print_ar(filename, str);
 		len = ft_strlen(str);
-		while (!str[len++])
-			;
+		while (!str[len])
+			++len;
 		ft_nm(obj + sizeof(struct ar_hdr) + len - 1, end, filename);
 		obj += ft_atoi(header->ar_size) + sizeof(struct ar_hdr);
 	}
