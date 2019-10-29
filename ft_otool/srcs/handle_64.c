@@ -6,15 +6,38 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/29 11:50:38 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/29 18:35:29 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_otool.h"
 
-static int			print_txt_64(void *obj, uint64_t addr, uint64_t size, void *end)
+static void		print_txt(void *obj, uint64_t i, uint64_t addr, uint64_t size)
 {
-	int							len;
+	int				len;
+
+	if (i % 16 == 0)
+	{
+		len = 17 - ft_countdigits_hex(addr + i);
+		while (--len)
+			ft_putchar('0');
+		ft_putnbr_hex_p((uintmax_t)(addr + i));
+		ft_putchar('\t');
+	}
+	if (i < size)
+	{
+		len = ft_countdigits_hex((uintmax_t)(0xff & ((char *)obj)[i]));
+		if (len < 2)
+			ft_putchar('0');
+		ft_putnbr_hex_p((uintmax_t)(0xff & ((char *)obj)[i]));
+		ft_putchar(' ');
+	}
+	if (i % 16 == 15)
+		ft_putchar('\n');
+}
+
+static int		print_txt_64(void *obj, uint64_t addr, uint64_t size, void *end)
+{
 	uint64_t					i;
 
 	i = -1;
@@ -22,30 +45,13 @@ static int			print_txt_64(void *obj, uint64_t addr, uint64_t size, void *end)
 		return (print_err("Error corrupted\n", ""));
 	while (++i < size)
 	{
-		if (i % 16 == 0)
-		{
-			len = 17 - ft_countdigits_hex(addr + i);
-			while (--len)
-				ft_putchar('0');
-			ft_putnbr_hex_p((uintmax_t)(addr + i));
-			ft_putchar('\t');
-		}
-		if (i < size)
-		{
-			len = ft_countdigits_hex((uintmax_t)(0xff & ((char *)obj)[i]));
-			if (len < 2)
-				ft_putchar('0');
-			ft_putnbr_hex_p((uintmax_t)(0xff & ((char *)obj)[i]));
-			ft_putchar(' ');
-		}
-		if (i % 16 == 15)
-			ft_putchar('\n');
+		print_txt(obj, i, addr, size);
 	}
 	ft_putchar('\n');
 	return (0);
 }
 
-static void			parse_sects_64(void *obj, struct load_command *lc, \
+static void		parse_sects_64(void *obj, struct load_command *lc, \
 									char *filename, void *end)
 {
 	struct segment_command_64	*segment_cmd;
@@ -73,7 +79,7 @@ static void			parse_sects_64(void *obj, struct load_command *lc, \
 	}
 }
 
-void				handle_64(void *obj, void *end, char *filename)
+void			handle_64(void *obj, void *end, char *filename)
 {
 	struct mach_header_64		*header;
 	struct load_command			*lc;
