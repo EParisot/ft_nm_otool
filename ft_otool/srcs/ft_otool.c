@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 03:42:17 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/30 18:55:02 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ char				*get_arch_name(int type)
 	else if (type == CPU_TYPE_POWERPC64)
 		return ("ppc64");
 	return ("???");
-}
-
-int					is_arch(int type)
-{
-	if (type == CPU_TYPE_X86_64 || type == CPU_TYPE_I386)
-		return (1);
-	return (0);
 }
 
 void				ft_otool(void *obj, void *end, char *obj_name)

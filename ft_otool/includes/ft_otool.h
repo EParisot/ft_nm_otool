@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 03:08:14 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/30 18:59:16 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int				check_corruption_64(void *obj, struct load_command *lc, \
 int				check_corruption_32(void *obj, struct load_command *lc, \
 					void *end, char *filename);
 char			*get_arch_name(int type);
-int				is_arch(int type);
 int				print_err(char *err, char *arg);
 uint8_t			*get_cpu(void);
 void			set_cpu(u_int8_t cpu);

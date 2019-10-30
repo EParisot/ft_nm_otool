@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 17:59:22 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/29 11:07:49 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/30 19:02:38 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,7 @@ uint32_t	swap_32(uint32_t n)
 
 uint64_t	swap_64(uint64_t n)
 {
-	n = ((n << 8) & 0xFF00FF00FF00FF00ULL) \
-		| ((n >> 8) & 0x00FF00FF00FF00FFULL);
-	n = ((n << 16) & 0xFFFF0000FFFF0000ULL) \
-		| ((n >> 16) & 0x0000FFFF0000FFFFULL);
+	n = ((n << 8) & 0xFF00FF00FF00FF00) | ((n >> 8) & 0x00FF00FF00FF00FF);
+	n = ((n << 16) & 0xFFFF0000FFFF0000) | ((n >> 16) & 0x0000FFFF0000FFFF);
 	return ((n << 32) | (n >> 32));
 }
