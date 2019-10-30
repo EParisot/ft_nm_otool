@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 00:43:25 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/30 03:01:09 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static void		print_64(void *obj, uint64_t i, uint64_t addr, uint64_t size)
 		if (len < 2)
 			ft_putchar('0');
 		ft_putnbr_hex_p((uintmax_t)(0xff & ((char *)obj)[i]));
-		ft_putchar(' ');
+		if (*get_cpu() == 0)
+			ft_putchar(' ');
+		else if (i % 4 == 3)
+			ft_putchar(' ');
 	}
 	if (i % 16 == 15)
 		ft_putchar('\n');

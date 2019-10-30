@@ -6,11 +6,33 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 00:44:09 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/30 03:08:54 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_otool.h"
+
+char				*get_arch_name(int type)
+{
+	if (type == CPU_TYPE_I386)
+		return ("i386");
+	else if (type == CPU_TYPE_X86_64)
+		return ("x86_64");
+	else if (type == CPU_TYPE_POWERPC)
+		return ("ppc");
+	else if (type == CPU_TYPE_POWERPC64)
+		return ("ppc64");
+	return ("???");
+}
+
+int					is_arch(int type)
+{
+	if ((type == CPU_TYPE_X86_64) && (sizeof(void *) == 8))
+		return (1);
+	if ((type == CPU_TYPE_I386) && (sizeof(void *) == 4))
+		return (1);
+	return (0);
+}
 
 void				ft_otool(void *obj, void *end, char *obj_name)
 {
@@ -27,12 +49,12 @@ void				ft_otool(void *obj, void *end, char *obj_name)
 		(magic_nb == MH_MAGIC) ? set_cpu(0): set_cpu(1);
 		handle_32(obj, end, obj_name);
 	}
-	/*else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
+	else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
 		handle_fat(obj, end, 64, obj_name);
 	else if (magic_nb == FAT_MAGIC || magic_nb == FAT_CIGAM)
 		handle_fat(obj, end, 32, obj_name);
 	else if (magic_nb == AR_MAGIC || magic_nb == AR_CIGAM)
-		handle_arch(obj, end, obj_name);*/
+		handle_arch(obj, end, obj_name);
 	else
 		ft_putstr("Error corrupted or not implemented\n");
 }
