@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 03:37:22 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/11/01 10:55:11 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static int		print_txt_32(void *obj, uint64_t addr, uint32_t size, void *end)
 		return (print_err("Error corrupted\n", ""));
 	while (++i < size)
 		print_32(obj, i, addr, size);
-	ft_putchar('\n');
+	if (i % 16 != 0)
+		ft_putchar('\n');
 	return (0);
 }
 
