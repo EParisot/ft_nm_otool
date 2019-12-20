@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 18:59:31 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/12/20 16:48:52 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_NM
+#ifndef FT_NM_H
 
-# define FT_NM
+# define FT_NM_H
 # define AR_MAGIC 0x72613c21
 # define AR_CIGAM 0x213c6172
 

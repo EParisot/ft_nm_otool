@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 18:59:16 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/12/20 16:49:12 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_OTOOL
+#ifndef FT_OTOOL_H
 
-# define FT_OTOOL
+# define FT_OTOOL_H
 # define AR_MAGIC 0x72613c21
 # define AR_CIGAM 0x213c6172
 

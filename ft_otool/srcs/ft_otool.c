@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 19:06:08 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/11/12 17:28:54 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void				ft_otool(void *obj, void *end, char *obj_name)
 	}
 	else if (magic_nb == MH_MAGIC || magic_nb == MH_CIGAM)
 	{
-		(magic_nb == MH_MAGIC) ? set_cpu(0): set_cpu(1);
+		(magic_nb == MH_MAGIC) ? set_cpu(0) : set_cpu(1);
 		handle_32(obj, end, obj_name);
 	}
 	else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
