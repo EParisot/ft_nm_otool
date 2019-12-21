@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/29 21:17:08 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/12/21 16:39:06 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,5 @@ void				handle_32(void *obj, void *end, char *filename)
 		lc = (void *)lc + cpu_32(lc->cmdsize);
 	}
 	ft_lstdel(&sym_list, del);
-	free(sects);
+	free((sects = NULL));
 }
