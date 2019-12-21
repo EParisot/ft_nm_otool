@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 18:57:09 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/12/21 16:28:14 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,16 @@ int					main(int argc, char *argv[])
 	int				i;
 
 	i = 0;
-	if (argc >= 2)
+	if (argc > 2)
 		while (++i < argc)
+		{
+			ft_putchar('\n');
+			ft_putstr(argv[i]);
+			ft_putstr(":\n");
 			read_obj(argv[i]);
+		}
+	else if (argc == 2)
+		read_obj(argv[1]);
 	else
 		read_obj("a.out\0");
 	return (0);

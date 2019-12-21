@@ -1,0 +1,89 @@
+
+../hell/libftprintf.a (for architecture ft_printf.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture check_flag.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture check_more_flag.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture attr.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture attr_check.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture attr_conversion.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture attr_mgmt.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture attr_conditions.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture dispatch_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture dispatch.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture dispatch_next.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture secondary_call.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture wstr_call.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture str_call.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture hex_call.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture oct_call.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture uintmax_call.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture intmax_call.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture intmax_call_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture string_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture int_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture ustr_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture ustr_next_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture wstr_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture wstr_next_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture wstr_size_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture wstr_byte_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture wstr_display_helper.o):
+Error corrupted or not implemented
+
+../hell/libftprintf.a (for architecture conversion_helper.o):
+Error corrupted or not implemented
+Error corrupted
+ '../hell/libftprintf.a'
