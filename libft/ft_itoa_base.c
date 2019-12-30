@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/29 15:40:59 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/14 14:46:15 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/12/30 17:41:18 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char			*ft_itoa_base(int n, int base)
 	int		i;
 	int		tmp;
 	char	*p;
-	
+
 	if (base < 2 || base > 16)
 		return (NULL);
 	i = 1;
