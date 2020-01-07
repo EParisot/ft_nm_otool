@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:41:26 by eparisot          #+#    #+#             */
-/*   Updated: 2020/01/07 12:41:11 by eparisot         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:18:55 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
-char				*get_arch_name(int type)
+char				*arch_name(int type)
 {
 	if (type == CPU_TYPE_I386)
 		return ("i386");
