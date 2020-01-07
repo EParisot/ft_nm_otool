@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 12:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2020/01/07 12:58:22 by eparisot         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:05:07 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void			ft_nm(void *obj, void *end, char *obj_name);
 void			handle_64(void *obj, void *end, char *filename);
 void			handle_32(void *obj, void *end, char *filename);
 void			handle_fat(void *obj, void *end, int type, char *filename);
+uint32_t		c_compat_32(void *obj, uint32_t nf, void *end, char *filename);
+uint64_t		c_compat_64(void *obj, uint64_t nf, void *end, char *filename);
 int				handle_arch(void *obj, void *end, char *filename);
 int				check_corruption_64(void *obj, struct load_command *lc, \
 					void *end, char *filename);

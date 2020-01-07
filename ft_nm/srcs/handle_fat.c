@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 13:23:17 by eparisot          #+#    #+#             */
-/*   Updated: 2020/01/07 13:10:05 by eparisot         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:09:31 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ static void		fat64_loop(void *obj, uint64_t nf, void *end, char *filename)
 	{
 		if (obj + swap_64(fatarch[i].offset) < end)
 		{
-			if (i == 0 && nf > 1 && swap_32(fatarch[i + 1].cputype) == \
+			if (i == 0 && nf > 1 && swap_64(fatarch[i + 1].cputype) == \
 															CPU_TYPE_X86_64)
 				continue ;
-			if (nf - 1 > i)
-				print_ar(filename, get_arch_name(swap_64(fatarch[i].cputype)));
-			ft_nm(obj + swap_64(fatarch[i].offset), end, filename);
+			if (swap_64(fatarch[i].cputype) == CPU_TYPE_X86_64)
+			{
+				if (c_compat_64(obj, nf, end, filename) > i)
+					print_ar(filename, get_arch_name(swap_64(fatarch[i].cputype)));
+				ft_nm(obj + swap_64(fatarch[i].offset), end, filename);
+			}
 		}
 		else
 			print_err("Error corrupted\n", filename);
@@ -62,9 +65,12 @@ static void		fat32_loop(void *obj, uint32_t nf, void *end, char *filename)
 			if (i == 0 && nf > 1 && swap_32(fatarch[i + 1].cputype) == \
 															CPU_TYPE_X86_64)
 				continue ;
-			if (nf - 1 > i)
-				print_ar(filename, get_arch_name(swap_32(fatarch[i].cputype)));
-			ft_nm(obj + swap_32(fatarch[i].offset), end, filename);
+			if (swap_32(fatarch[i].cputype) == CPU_TYPE_X86_64)
+			{
+				if (c_compat_32(obj, nf, end, filename) > 1)
+					print_ar(filename, get_arch_name(swap_32(fatarch[i].cputype)));
+				ft_nm(obj + swap_32(fatarch[i].offset), end, filename);
+			}
 		}
 		else
 			print_err("Error corrupted\n", filename);
