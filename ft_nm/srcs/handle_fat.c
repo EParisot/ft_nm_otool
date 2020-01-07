@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 13:23:17 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/30 18:58:14 by eparisot         ###   ########.fr       */
+/*   Updated: 2020/01/07 13:10:05 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,15 @@ void			handle_fat(void *obj, void *end, int type, char *filename)
 
 	header = (struct fat_header *)obj;
 	if (type == 64)
+	{
 		nf = swap_64(header->nfat_arch);
-	else
-		nf = swap_32(header->nfat_arch);
-	if (type == 64)
 		fat64_loop(obj, nf, end, filename);
+	}
 	else
+	{
+		nf = swap_32(header->nfat_arch);
 		fat32_loop(obj, nf, end, filename);
+	}
 }
 
 int				handle_arch(void *obj, void *end, char *filename)

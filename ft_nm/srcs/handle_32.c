@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:59:32 by eparisot          #+#    #+#             */
-/*   Updated: 2019/12/30 22:57:00 by eparisot         ###   ########.fr       */
+/*   Updated: 2020/01/07 13:34:40 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,18 @@ static t_sections	*parse_sects(struct load_command *lc, \
 {
 	struct segment_command		*segment_cmd;
 	struct section				*sections;
-	int							nb_sects;
-	int							i;
+	uint64_t					i;
 
-	if (sects == NULL && !(sects = (t_sections *)malloc(sizeof(t_sections))))
-		return (NULL);
 	if (sects == NULL)
+	{
+		if (!(sects = (t_sections *)malloc(sizeof(t_sections))))
+			return (NULL);
 		ft_bzero(sects, sizeof(t_sections));
+	}
 	segment_cmd = (struct segment_command *)lc;
 	sections = (struct section*)((void *)segment_cmd + sizeof(*segment_cmd));
-	nb_sects = cpu_32(segment_cmd->nsects);
 	i = -1;
-	while (++i < nb_sects && ++sects->idx >= 0)
+	while (++i < cpu_32(segment_cmd->nsects) && ++sects->idx >= 0)
 		if (!ft_strcmp((sections + i)->sectname, SECT_TEXT) \
 				&& !ft_strcmp((sections + i)->segname, SEG_TEXT))
 			sects->text = sects->idx;
