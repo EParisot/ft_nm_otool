@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:02:58 by eparisot          #+#    #+#             */
-/*   Updated: 2020/01/07 15:07:39 by eparisot         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:15:34 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ uint32_t		c_compat_32(void *obj, uint32_t nf, void *end, char *filename)
 		else
 			print_err("Error corrupted\n", filename);
 	}
-	return res;
+	return (res);
 }
 
 uint64_t		c_compat_64(void *obj, uint64_t nf, void *end, char *filename)
@@ -63,5 +63,5 @@ uint64_t		c_compat_64(void *obj, uint64_t nf, void *end, char *filename)
 		else
 			print_err("Error corrupted\n", filename);
 	}
-	return res;
+	return (res);
 }
